@@ -1,0 +1,53 @@
+# depslib dependency file v1.0
+1217356126 source:/media/BIG BIRD/Code/RayTracer/Objects/BaseObject.cpp
+	"BaseObject.h"
+
+1217356050 /media/BIG BIRD/Code/RayTracer/Objects/BaseObject.h
+	"../RayTracerHelper.h"
+	"vmmlib/vmmlib.h"
+
+1217369550 /media/BIG BIRD/Code/RayTracer/RayTracerHelper.h
+	"vmmlib/vmmlib.h"
+
+1217357622 source:/media/BIG BIRD/Code/RayTracer/Objects/PointLight.cpp
+	"PointLight.h"
+
+1218989748 /media/BIG BIRD/Code/RayTracer/Objects/PointLight.h
+	"../RayTracerHelper.h"
+
+1219000702 source:/media/BIG BIRD/Code/RayTracer/Objects/Sphere.cpp
+	"Sphere.h"
+
+1217356454 /media/BIG BIRD/Code/RayTracer/Objects/Sphere.h
+	"BaseObject.h"
+
+1219254658 source:/media/BIG BIRD/Code/RayTracer/main.c
+	<stdio.h>
+	<stdlib.h>
+	<GL/glx.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<GL/glut.h>
+	<X11/X.h>
+	<X11/keysym.h>
+	"raytracer.h"
+
+1219254229 source:/media/BIG BIRD/Code/RayTracer/raytracer.cpp
+	<GL/glx.h>
+	<GL/gl.h>
+	<GL/glut.h>
+	"raytracer.h"
+
+1219252513 /media/BIG BIRD/Code/RayTracer/raytracer.h
+	<list>
+	"vmmlib/vmmlib.h"
+	"Objects/AllObjects.h"
+	"RayTracerHelper.h"
+	<GL/gl.h>
+	<GL/glut.h>
+
+1217356366 /media/BIG BIRD/Code/RayTracer/Objects/AllObjects.h
+	"PointLight.h"
+	"BaseObject.h"
+	"Sphere.h"
+
