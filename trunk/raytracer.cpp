@@ -38,10 +38,10 @@ lights()
                                    col,
                                    0.5f, 0 ) );
 
-    pos = Vector3f( 135, 150, 300.0f );
+    pos = Vector3f( 135, 150, 280.0f );
     col = Color( 255,0,0,255 );
     objects.push_back( new Sphere( pos,
-                                   30.0f,
+                                   20.0f,
                                    col,
                                    0.5f, 0 ) );
 
@@ -84,7 +84,7 @@ void RayTracer::Trace( int width, int height)
       Ray currentRay( start, dir );
       IntersectionInfo nearestIntersection;
 
-      BaseObject* intersectingObject = CastRayOnScene( currentRay, nearestIntersection );
+      BaseObject* intersectingObject = CastRayOnScene( currentRay, NULL, nearestIntersection );
 
       if( intersectingObject != NULL )
       {
@@ -101,12 +101,21 @@ void RayTracer::Trace( int width, int height)
           //float dist = lightRay.direction.length();
           lightRay.direction.normalize();
           Vector3f invLightRayDir = lightRay.direction;
-          //lightRay.direction *= -1;
 
-          float dot = invLightRayDir.dot( nearestIntersection.normal );
-
-          if( true )// the light is not in shadow of another object
+          IntersectionInfo lightInfo;
+          BaseObject* obj = CastRayOnScene( lightRay, intersectingObject, lightInfo );
+          float softShadow = 1;
+//          if( obj != NULL  )
+//          {
+//              //color -= Color( 0.3,0.3,0.3,1);
+//            Color highlight = color;
+//            softShadow = 0.3*invLightRayDir.dot( lightInfo.normal );
+//            color += highlight*softShadow;
+//          }
+//          else //the light is not in shadow of another object
           {
+            float dot = invLightRayDir.dot( nearestIntersection.normal );
+
             Color highlight = color;
             highlight *= dot;
 
@@ -121,7 +130,6 @@ void RayTracer::Trace( int width, int height)
               scalor *= 255;
               highlight += (highlight+ scalor) * blinnTerm;
             }
-
             color += highlight;
           }
         }
@@ -138,7 +146,7 @@ void RayTracer::Trace( int width, int height)
           Vector3f reflectionDirection = lastReflectionRay.direction - currentIntersection.normal* secondTerm;
           Ray reflectionRay( currentIntersection.pointOfIntersection, reflectionDirection );
           IntersectionInfo reflectionInfo;
-          BaseObject* reflectingObject = CastRayOnScene( reflectionRay, reflectionInfo );
+          BaseObject* reflectingObject = CastRayOnScene( reflectionRay, intersectingObject, reflectionInfo );
           if( reflectingObject != NULL )
           {
             color += reflectionInfo.diffuseColorOfObject*lastReflectingObject->GetRefletivity()*(depth)*0.1f;
@@ -167,7 +175,7 @@ void RayTracer::Trace( int width, int height)
   cout<<"Frame Done\n";
 }
 
-BaseObject* const RayTracer::CastRayOnScene( Ray& rayToCast, IntersectionInfo& outInfo )
+BaseObject* const RayTracer::CastRayOnScene( Ray& rayToCast, BaseObject* objToExlude, IntersectionInfo& outInfo )
 {
   BaseObject* intersectingObject = NULL;
   float nearest = SCENE_MAX;
@@ -176,6 +184,9 @@ BaseObject* const RayTracer::CastRayOnScene( Ray& rayToCast, IntersectionInfo& o
   {
     //perform some sort of bounding sphere optimization here
     BaseObject* obj = *it;
+    if( obj == objToExlude )
+      continue;
+
     IntersectionInfo info;
     if( obj->Intersect( rayToCast, info ) )
     {
