@@ -20,7 +20,7 @@ public:
   ~RayTracer();
   void Trace( int width, int height );
 private:
-  BaseObject* const CastRayOnScene( Ray& rayToCast, IntersectionInfo& outInfo );
+  BaseObject* const CastRayOnScene( Ray& rayToCast, BaseObject* objectToExclude, IntersectionInfo& outInfo );
   bool enabled;
   list<BaseObject*> objects;
   list<PointLight*> lights;
