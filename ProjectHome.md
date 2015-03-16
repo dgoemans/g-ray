@@ -1,0 +1,1 @@
+This project hopes to become an optimized ray tracing framework that can be used for full scene rendering at hopefull high speeds.
